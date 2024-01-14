@@ -91,7 +91,6 @@ public class SendAudio extends AppCompatActivity implements LocationListener {
 
         stop.setEnabled(false);
 
-
         alert = FirebaseDatabase.getInstance().getReference("Alert");
         alert.addValueEventListener(new ValueEventListener() {
             @Override
@@ -108,7 +107,6 @@ public class SendAudio extends AppCompatActivity implements LocationListener {
             }
         });
 
-
         mprogress = new ProgressDialog(this);
 
         if (ContextCompat.checkSelfPermission(SendAudio.this, Manifest.permission.CAMERA) !=
@@ -122,9 +120,7 @@ public class SendAudio extends AppCompatActivity implements LocationListener {
             ActivityCompat.requestPermissions(SendAudio.this, new String[]{RECORD_AUDIO}, 100);
         }
 
-
         emergencyType = getIntent().getStringExtra("emergency");
-
 
         final String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
@@ -139,16 +135,12 @@ public class SendAudio extends AppCompatActivity implements LocationListener {
 
                     if (uid.equals(userID)) {
 
-
                         String firstName = snapshot.child("fname").getValue().toString();
                         Log.d("onchange", "onDataChange: " + firstName);
                         f_name = firstName.toString();
 
                     }
-
-
                 }
-
             }
 
             @Override
@@ -156,7 +148,6 @@ public class SendAudio extends AppCompatActivity implements LocationListener {
 
             }
         });
-
 
         move = FirebaseDatabase.getInstance().getReference("FinalReport");
         move.addValueEventListener(new ValueEventListener() {
@@ -170,12 +161,9 @@ public class SendAudio extends AppCompatActivity implements LocationListener {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
             }
-
         });
 
-
         StorageReference mStorage = FirebaseStorage.getInstance().getReference().child("Audio");
-
 
         dbref = FirebaseDatabase.getInstance().getReference().child("AudioReport");
         dbref.addValueEventListener(new ValueEventListener() {
@@ -192,16 +180,14 @@ public class SendAudio extends AppCompatActivity implements LocationListener {
             }
         });
 
-
         outputFile = Environment.getExternalStorageDirectory().getAbsolutePath();
         outputFile += "/recorded_audio.3gp";
-
         myAudioRecorder = new MediaRecorder();
+
         myAudioRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         myAudioRecorder.setOutputFile(outputFile);
         myAudioRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
         myAudioRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -211,7 +197,6 @@ public class SendAudio extends AppCompatActivity implements LocationListener {
                 finish();
             }
         });
-
 
         record.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -230,7 +215,6 @@ public class SendAudio extends AppCompatActivity implements LocationListener {
             }
         });
 
-
         stop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -246,18 +230,16 @@ public class SendAudio extends AppCompatActivity implements LocationListener {
                 stop.setEnabled(false);
                 record.setEnabled(true);
 
-
                 Toast.makeText(SendAudio.this,
                         "successfully recorded",
                         Toast.LENGTH_SHORT).show();
                 text.setText("tap to record..");
-                getUserLocation();
 
+                getUserLocation();
                 uploadfile();
 
             }
         });
-
 
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -277,23 +259,17 @@ public class SendAudio extends AppCompatActivity implements LocationListener {
                 Intent i = new Intent(getApplicationContext(), MainAction.class);
                 startActivity(i);
                 finish();
-
             }
         });
-
     }
-
 
     public void uploadfile() {
         mprogress.setMessage("Uploading Audio...");
         mprogress.show();
         long audio_id = 0;
 
-
         File file = new File(String.valueOf(outputFile));
         /*  final StorageReference filepath = mStorage.child("Audio").child("New_Audio.3gp" + file);*/
-
-
 
         final StorageReference filepath = FirebaseStorage.getInstance().getReference().child("Audio");
         final Uri uri = Uri.fromFile(file);
@@ -307,7 +283,6 @@ public class SendAudio extends AppCompatActivity implements LocationListener {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-
                         filepath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
                             public void onSuccess(Uri uri) {
@@ -316,7 +291,6 @@ public class SendAudio extends AppCompatActivity implements LocationListener {
                                 String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
                                 String msg = "";
                                 String image = "";
-
 
                                 FinalReportClass fhelperClass = new FinalReportClass(f_name, phone, lon, lat,
                                         userID, msg, String.valueOf(uri), image, emergencyType, Date);
@@ -335,7 +309,6 @@ public class SendAudio extends AppCompatActivity implements LocationListener {
                         });
                     }
                 });
-
 
                 Intent i = new Intent(getApplicationContext(), ReporterHome.class);
                 startActivity(i);
@@ -357,7 +330,6 @@ public class SendAudio extends AppCompatActivity implements LocationListener {
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
             return;
-
         }
 
 
@@ -370,7 +342,6 @@ public class SendAudio extends AppCompatActivity implements LocationListener {
             e.printStackTrace();
         }
     }
-
 
     @Override
     public void onLocationChanged(@NonNull Location location) {
@@ -397,16 +368,13 @@ public class SendAudio extends AppCompatActivity implements LocationListener {
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
-
     }
 
     @Override
     public void onProviderEnabled(@NonNull String provider) {
-
     }
 
     @Override
     public void onProviderDisabled(@NonNull String provider) {
-
     }
 }
