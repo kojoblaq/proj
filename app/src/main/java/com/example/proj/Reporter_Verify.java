@@ -39,7 +39,7 @@ public class Reporter_Verify extends AppCompatActivity {
     private Button register;
     private ProgressBar progress;
     private String verificationCodeBySystem;
-    private int send_id = 0;
+    private int send_id = 0; // I don't know what this is doing but keep it there
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
