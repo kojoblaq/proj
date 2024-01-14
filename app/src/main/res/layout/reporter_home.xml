@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ReporterHome">
+
+
+
+
+    <fragment
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="170dp"
+        android:layout_marginStart="120dp"
+        android:layout_marginLeft="120dp"
+        android:layout_marginBottom="6dp"
+        android:layout_height="170dp"
+        app:cardBackgroundColor="#E2FBFE"
+        android:elevation="14dp"
+        app:cardCornerRadius="50dp"
+
+
+        android:gravity="center"
+        android:contextClickable="true"
+        android:layout_alignParentBottom="true"
+        />
+    <androidx.cardview.widget.CardView
+        android:layout_width="150dp"
+        android:layout_marginStart="130dp"
+        android:layout_marginLeft="130dp"
+        android:layout_marginBottom="15dp"
+        android:layout_height="150dp"
+        app:cardBackgroundColor="@color/colorPrimary"
+        android:elevation="15dp"
+        app:cardCornerRadius="50dp"
+        android:id="@+id/alert"
+        android:clickable="true"
+        android:gravity="center"
+        android:contextClickable="true"
+        android:layout_alignParentBottom="true"
+        >
+
+
+
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginStart="45dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/report"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="45dp"
+            android:layout_marginLeft="60dp"
+            android:layout_marginTop="10dp"
+            android:textColor="#ff0000"
+            android:text="ALERT"
+            android:textSize="20dp" />
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="35dp"
+            android:layout_marginLeft="60dp"
+            android:layout_marginTop="100dp"
+            android:text="TAP &amp; HOLD"
+            android:textColor="#000"
+            android:textStyle="bold"
+
+            android:textSize="15dp" />
+    </androidx.cardview.widget.CardView>
+
+
+
+
+
+
+
+
+
+</RelativeLayout>

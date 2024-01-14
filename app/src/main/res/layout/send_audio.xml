@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SendAudio">
+
+    <ImageView
+        android:id="@+id/back"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/back"
+        android:layout_marginTop="14dp"
+        android:layout_marginLeft="15dp"
+
+        />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/record"
+        android:layout_width="200dp"
+        android:layout_height="250dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="200dp"
+        app:cardCornerRadius="40dp"
+        app:cardBackgroundColor="@color/colorPrimary">
+
+        <ImageView
+
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginStart="-3dp"
+            android:layout_marginLeft="-3dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/mic_"
+            app:tint="@android:color/primary_text_light_nodisable" />
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="tap to record"
+            android:textSize="24sp"
+            android:layout_marginTop="190dp"
+            android:layout_marginLeft="36dp"
+            />
+    </androidx.cardview.widget.CardView>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="stop"
+        android:textSize="20dp"
+        android:layout_below="@+id/record"
+        android:layout_marginTop="13dp"
+        android:layout_marginLeft="210dp"
+        android:textColor="@android:color/primary_text_light_nodisable"
+        android:id="@+id/stop"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/record"
+        android:layout_marginTop="13dp"
+        android:layout_marginLeft="100dp"
+        android:text="cancel"
+        android:textSize="14dp"
+        android:textColor="@android:color/primary_text_light_nodisable"
+        android:id="@+id/cancel"
+        />
+
+</RelativeLayout>
