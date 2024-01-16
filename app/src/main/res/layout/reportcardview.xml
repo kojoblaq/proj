@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context=".ReportCardView">
+
+    <TextView
+    android:id="@+id/current_date"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="140dp"
+    android:layout_marginTop="80dp"
+    android:text="@string/default_time_date"
+    android:textSize="12sp"
+    android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="80dp"
+        android:text="@string/default_name"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textAllCaps="true" />
+
+    <TextView
+        android:id="@+id/emergencyType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="140dp"
+        android:layout_marginTop="45dp"
+        android:text="@string/emergency_type"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/ipic"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginRight="50dp"
+        android:src="@drawable/image" />
+
+    <TextView
+        android:id="@+id/txtAudio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ipic"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/audio"
+        android:textSize="23sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/txtMsg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtAudio"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="25dp"
+        android:text="@string/message"
+        android:textSize="23sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/txtMessage"
+        android:layout_width="350dp"
+        android:layout_height="150dp"
+        android:layout_below="@+id/txtAudio"
+        android:layout_marginTop="79dp"
+        android:layout_marginStart="25dp"
+        android:text="@string/message"
+        android:textSize="23sp"
+        android:gravity="start"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/play"
+        android:layout_width="75dp"
+        android:layout_height="69dp"
+        android:layout_below="@+id/ipic"
+        android:layout_marginStart="170dp"
+        android:layout_marginTop="-9dp"
+        android:src="@drawable/play"
+        app:tint="@color/colorPrimary" />
+
+    <ImageView
+        android:id="@+id/pause"
+        android:layout_width="73dp"
+        android:layout_height="65dp"
+        android:layout_below="@+id/ipic"
+        android:layout_marginStart="110dp"
+        android:layout_marginTop="-4dp"
+        android:src="@drawable/pause"
+        app:tint="@color/colorPrimary" />
+
+    <ImageView
+        android:id="@+id/stop"
+        android:layout_width="75dp"
+        android:layout_height="63dp"
+        android:layout_below="@+id/ipic"
+        android:layout_marginStart="230dp"
+        android:layout_marginTop="-2dp"
+        android:src="@drawable/stop"
+        app:tint="@color/colorPrimary" />
+
+    <Button
+        android:id="@+id/route"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ipic"
+        android:layout_marginStart="250dp"
+        android:layout_marginTop="320dp"
+        android:background="@drawable/darkbutton"
+        android:text="@string/route"
+        android:textSize="28sp" />
+
+    <Button
+        android:id="@+id/call"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/ipic"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="330dp"
+        android:background="@drawable/call"
+        android:text="@string/phone"
+        android:textSize="28sp" />
+
+    <TextView
+        android:id="@+id/phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtAudio"
+       android:layout_marginTop="340dp"
+        android:layout_marginStart="30dp"
+        android:text="@string/phone"
+        android:textSize="12sp" />
+
+</RelativeLayout>

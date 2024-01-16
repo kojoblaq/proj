@@ -21,11 +21,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 
 public class Personnel_SignUp extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
-    private Spinner spinner;
     TextInputLayout regID, regphone;
     Button btnregister;
     FirebaseDatabase rootNode;
@@ -47,10 +47,10 @@ public class Personnel_SignUp extends AppCompatActivity implements AdapterView.O
         btnregister = findViewById(R.id.register);
 
 
-        spinner = findViewById(R.id.spinner);
+        Spinner spinner = findViewById(R.id.spinner);
 
         String[] personnel = getResources().getStringArray(R.array.Personnel);
-        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, personnel);
+        ArrayAdapter<? extends String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, personnel);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
         spinner.setAdapter(adapter);
 
@@ -58,7 +58,7 @@ public class Personnel_SignUp extends AppCompatActivity implements AdapterView.O
 
 
         if (mAuth.getCurrentUser() != null) {
-            startActivity(new Intent(getApplicationContext(), PersonnelHome.class));
+            startActivity(new Intent(getApplicationContext(), MainActivity.class));
             finish();
         }
 
@@ -84,8 +84,8 @@ public class Personnel_SignUp extends AppCompatActivity implements AdapterView.O
             @Override
             public void onClick(View v) {
 
-                final String PID = regID.getEditText().getText().toString();
-                final String phone = regphone.getEditText().getText().toString();
+                final String PID = Objects.requireNonNull(regID.getEditText()).getText().toString();
+                final String phone = Objects.requireNonNull(regphone.getEditText()).getText().toString();
 
                 regphone.setError(null);
                 regphone.setErrorEnabled(false);

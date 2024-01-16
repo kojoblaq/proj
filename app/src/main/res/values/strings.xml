@@ -22,4 +22,14 @@
     string in this file.
     -->
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false" id="f7a64dfc2f46fd5e">AIzaSyBPw4rTVW4qdxlvi0tPoZ4e-oE8gq2KuU4</string>
+    <string name="default_name">OSWALD</string>
+    <string name="default_time_date">03-11-2020 12:36:31</string>
+    <string name="emergency_type">EMERGENCY</string>
+    <string name="audio">AUDIO :</string>
+    <string name="message">MESSAGE :</string>
+    <string name="phone">0542447188:</string>
+    <string name="route">route</string>
+    <string name="r_e_p_o_r_t_s">R E P O R T S</string>
+    <string name="fire_police_ambulance">Fire ||Police ||Ambulance</string>
+    <string name="date">Date:</string>
 </resources>

@@ -18,9 +18,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskExecutors;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.FirebaseException;
+import com.google.firebase.FirebaseTooManyRequestsException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.PhoneAuthCredential;
+import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
 
 import java.util.concurrent.TimeUnit;
@@ -70,13 +73,16 @@ public class Personnel_Verify extends AppCompatActivity {
     }
 
     private void sendVerificationCodeToUser(String phone) {
-        PhoneAuthProvider.getInstance().verifyPhoneNumber(
-                "+233" + phone,        // Phone number to verify
-                (long) 60L,                 // Timeout duration
-                TimeUnit.SECONDS,   // Unit of timeout
-                (Activity) TaskExecutors.MAIN_THREAD,              // Activity (for callback binding)
-                mCallbacks);        // OnVerificationStateChangedCallbacks
-
+        Log.d("Verification", "Sending verification code to: " + phone);
+        String user_phone = "+233" + phone;
+        PhoneAuthOptions options =
+                PhoneAuthOptions.newBuilder(FirebaseAuth.getInstance())
+                        .setPhoneNumber(user_phone)       // Phone number to verify
+                        .setTimeout(60L, TimeUnit.SECONDS)    // Timeout duration
+                        .setActivity(this)                    // Activity for callback binding
+                        .setCallbacks(mCallbacks)             // OnVerificationStateChangedCallbacks
+                        .build();
+        PhoneAuthProvider.verifyPhoneNumber(options);
     }
 
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks =
@@ -104,8 +110,19 @@ public class Personnel_Verify extends AppCompatActivity {
 
                 @Override
                 public void onVerificationFailed(@NonNull FirebaseException e) {
-                    Toast.makeText(Personnel_Verify.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.e("Verification", "Verification failed", e);
+                    String errorMessage = getErrorMessage(e);
+                    Toast.makeText(Personnel_Verify.this, errorMessage, Toast.LENGTH_SHORT).show();
+                }
 
+                private String getErrorMessage(FirebaseException exception) {
+                    String defaultMessage = "Verification failed. Please try again.";
+                    if (exception instanceof FirebaseAuthInvalidCredentialsException) {
+                        return "Invalid phone number format.";
+                    } else if (exception instanceof FirebaseTooManyRequestsException) {
+                        return "Quota exceeded. Please try again later.";
+                    }
+                    return defaultMessage;
                 }
             };
 
@@ -125,7 +142,7 @@ public class Personnel_Verify extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     Toast.makeText(Personnel_Verify.this, "Login Successful", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(getApplicationContext(), PersonnelHome.class);
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     // to disallow the user from using the back button to get to this page,
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 

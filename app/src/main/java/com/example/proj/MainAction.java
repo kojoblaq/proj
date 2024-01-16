@@ -49,10 +49,12 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 import static android.Manifest.permission.RECORD_AUDIO;
 
@@ -82,7 +84,6 @@ public class MainAction extends AppCompatActivity implements LocationListener {
     private ProgressDialog dialog;
     String fname;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,17 +108,13 @@ public class MainAction extends AppCompatActivity implements LocationListener {
         calendar = Calendar.getInstance();
         simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         Date = simpleDateFormat.format(calendar.getTime());
-
         mResult = new ArrayList<>();
-
         note.setEnabled(false);
         record.setEnabled(false);
         camera.setEnabled(false);
 
-
         if (ContextCompat.checkSelfPermission(MainAction.this, Manifest.permission.CAMERA) !=
                 PackageManager.PERMISSION_GRANTED) {
-
             ActivityCompat.requestPermissions(MainAction.this, new String[]{Manifest.permission.CAMERA}, 100);
         }
 
@@ -125,7 +122,6 @@ public class MainAction extends AppCompatActivity implements LocationListener {
                 PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(MainAction.this, new String[]{RECORD_AUDIO}, 100);
         }
-
 
         final String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
@@ -136,7 +132,6 @@ public class MainAction extends AppCompatActivity implements LocationListener {
                 if (snapshot.exists()) {
                     alert_id = (int) snapshot.getChildrenCount();
                 }
-
             }
 
             @Override
@@ -144,10 +139,6 @@ public class MainAction extends AppCompatActivity implements LocationListener {
 
             }
         });
-
-
-
-
 
         reference = FirebaseDatabase.getInstance().getReference("Reporter").child(userID);
         reference.addValueEventListener(new ValueEventListener() {
@@ -156,19 +147,14 @@ public class MainAction extends AppCompatActivity implements LocationListener {
 
                 if (snapshot.exists()) {
                     /*reportid = snapshot.getChildrenCount();*/
-                    String uid = snapshot.child("userid").getValue().toString();
+                    String uid = Objects.requireNonNull(snapshot.child("userid").getValue()).toString();
 
                     if (uid.equals(userID)) {
-
-                        String firstName = snapshot.child("fname").getValue().toString();
+                        String firstName = Objects.requireNonNull(snapshot.child("fname").getValue()).toString();
                         Log.d("onchange", "onDataChange: " + firstName);
-                        fname = firstName.toString();
-
+                        fname = firstName;
                     }
-
-
                 }
-
             }
 
             @Override
@@ -176,7 +162,6 @@ public class MainAction extends AppCompatActivity implements LocationListener {
 
             }
         });
-
 
         // my checkboxes and their responses
         fire.setOnClickListener(new View.OnClickListener() {
@@ -223,10 +208,8 @@ public class MainAction extends AppCompatActivity implements LocationListener {
             }
         });
 
-
         // Start Countdown
         StartTimer();
-
 
         move = FirebaseDatabase.getInstance().getReference("FinalReport");
         move.addValueEventListener(new ValueEventListener() {
@@ -240,9 +223,7 @@ public class MainAction extends AppCompatActivity implements LocationListener {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
             }
-
         });
-
 
         ref = FirebaseDatabase.getInstance().getReference("ImageReport");
 
@@ -264,14 +245,11 @@ public class MainAction extends AppCompatActivity implements LocationListener {
         stop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Intent intent = new Intent(getApplicationContext(), ReporterHome.class);
                 startActivity(intent);
                 finish();
-
             }
         });
-
 
         close.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -279,10 +257,8 @@ public class MainAction extends AppCompatActivity implements LocationListener {
                 Intent intent = new Intent(getApplicationContext(), ReporterHome.class);
                 startActivity(intent);
                 finish();
-
             }
         });
-
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -308,14 +284,14 @@ public class MainAction extends AppCompatActivity implements LocationListener {
                 finish();
             }
         });
+
         note.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 StringBuilder stringBuilder = new StringBuilder();
                 for (String s : mResult)
                     stringBuilder.append(s).append(" || ");
-                String emergency = stringBuilder.toString();
-                emergency_type = emergency;
+                emergency_type = stringBuilder.toString();
                 Intent intent = new Intent(getApplicationContext(), Text_page.class);
                 intent.putExtra("fname", fname);
                 intent.putExtra("emergency", emergency_type);
@@ -323,41 +299,29 @@ public class MainAction extends AppCompatActivity implements LocationListener {
                 finish();
             }
         });
+
         camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getuserLocation();
+                getUserLocation();
                 Intent cam = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
                 startActivityForResult(cam, 1000);
-
-
             }
         });
-
-
     }
 
-    public void getuserLocation() {
+    public void getUserLocation() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
             return;
-
         }
-
 
         try {
             LocationManager locationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
             locationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER, this, Looper.myLooper());
-
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -365,92 +329,78 @@ public class MainAction extends AppCompatActivity implements LocationListener {
     }
 
     public void StartTimer() {
-
         progress.setVisibility(View.VISIBLE);
         new CountDownTimer(30000 + 100, 1) {
             @Override
             public void onTick(long l) {
-
                 tv_count.setText(String.valueOf(l / 1000));
-
                 progress.setProgress(Integer.parseInt(String.valueOf(l / 300)));
-
             }
 
             @Override
             public void onFinish() {
-
-
                 tv_count.setText("0");
                 Intent intent = new Intent(getApplicationContext(), ReporterHome.class);
                 startActivity(intent);
                 finish();
-
             }
-
-
         }.start();
-
-
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (requestCode == 1000) {
             if (resultCode == RESULT_OK) {
-
-                Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-
+                Bitmap bitmap = (Bitmap) Objects.requireNonNull(data.getExtras()).get("data");
                 File file = new File(String.valueOf(bitmap));
                 Uri uri = Uri.fromFile(file);
-
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 if (bitmap != null) {
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
                 }
                 byte[] imageBytes = baos.toByteArray();
-                String imageString = imageBytes.toString();
-
+                String imageString = Arrays.toString(imageBytes);
                 dialog.setMessage("Sending Report");
                 dialog.show();
-
 
                 final StorageReference reference = FirebaseStorage.getInstance().getReference().child("report/" + file);
                 UploadTask uploadTask = reference.putBytes(imageBytes);
                 uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
                         reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @SuppressLint("MissingPermission")
                             @Override
                             public void onSuccess(final Uri uri) {
-
-
                                         /* String lon = getIntent().getStringExtra("lon");
                                 String lat = getIntent().getStringExtra("lat");*/
-
                                 final String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
                                 final String phone = FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
                                 final String audio = "";
                                 final String message = "";
-
                                 StringBuilder stringBuilder = new StringBuilder();
                                 for (String s : mResult)
                                     stringBuilder.append(s).append(" || ");
                                 String emergency = stringBuilder.toString();
                                 emergency_type = emergency;
 
+                                FinalReportClass fhelperClass = new FinalReportClass(
+                                        fname,
+                                        phone,
+                                        lon,
+                                        lat,
+                                        userID,
+                                        message,
+                                        audio,
+                                        String.valueOf(uri),
+                                        emergency_type,Date);
 
-                                FinalReportClass fhelperClass = new FinalReportClass(fname, phone, lon, lat, userID,
-                                        message, audio, String.valueOf(uri), emergency_type,Date);
                                 move.child(String.valueOf(userid + 1)).setValue(fhelperClass);
-
 
                                 HashMap<String, String> hashMap = new HashMap<>();
                                 hashMap.put("image", String.valueOf(uri));
+
                                 ref.child(String.valueOf(UserID + 1)).setValue(hashMap);
 
                                 alert_notification help = new alert_notification(fname, lon, lat, phone);
@@ -461,8 +411,6 @@ public class MainAction extends AppCompatActivity implements LocationListener {
 
                                 Intent I = new Intent(getApplicationContext(), Text_page.class);
                                 I.putExtra("image", hashMap);
-
-
                             }
                         });
 
@@ -472,18 +420,11 @@ public class MainAction extends AppCompatActivity implements LocationListener {
                     }
                 });
 
-
                 Intent i = new Intent(MainAction.this, ReporterHome.class);
                 startActivity(i);
                 finish();
-
-
             }
-
-
         }
-
-
     }
 
     @Override
@@ -491,37 +432,28 @@ public class MainAction extends AppCompatActivity implements LocationListener {
         try {
             Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
             List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+            assert addresses != null;
             String address = addresses.get(0).getAddressLine(0);
-
-
         } catch (IOException e) {
             e.printStackTrace();
         }
+        final String lonnn  = String.valueOf(location.getLongitude());
 
+        final String latttt = String.valueOf(location.getLatitude());
 
-        final String lonnn = String.valueOf(location.getLongitude());
-
-        final String lattttt = String.valueOf(location.getLatitude());
-
-        lon = lonnn.toString();
-        lat = lattttt.toString();
-
-
+        lon = lonnn;
+        lat = latttt;
     }
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
-
     }
 
     @Override
     public void onProviderEnabled(@NonNull String provider) {
-
     }
 
     @Override
     public void onProviderDisabled(@NonNull String provider) {
-
     }
 }
-

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.proj"
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -8,10 +9,17 @@
     <uses-permission android:name="android.permission.CAMERA" />
 
     <uses-feature android:name="android.hardware.camera" />
+    <uses-permission android:name="android.permission.SEND_SMS"/>
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <uses-feature android:name="android.hardware.location.gps" />
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false" />
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
@@ -26,7 +34,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/applogo"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Proj"
+        android:theme="@style/AppTheme"
         tools:targetApi="31">
         <activity android:name=".MainAction"/>
         <activity android:name=".Text_page" />
@@ -44,6 +52,15 @@
             android:value="@string/google_maps_key" />
 
         <activity android:name=".ReporterHome"/>
+        <activity
+            android:name=".MapsActivity"
+            android:label="maps">
+
+        </activity>
+        <activity android:name=".MainActivity">
+
+        </activity>
+        <activity android:name=".ReportCardView"></activity>
         <activity android:name=".PersonnelHome" />
         <activity android:name=".SplashScreen" />
         <activity android:name=".SendImage" />
@@ -54,16 +71,18 @@
         <activity android:name=".Personnel_Verify" />
         <activity android:name=".Reporter_SignUp"
             android:exported="true">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
         </activity>
         <activity
             android:name=".Personnel_SignUp"
-            android:label="XendPersonnel" />
+            android:label="XendPersonnel"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
 
     </application>
 
